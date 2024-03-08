@@ -1,0 +1,24 @@
+Country Financial template by Country = 
+VAR CurrentProjNum = stgVeevaMilestone__V_BKP_01122023[ProjNum]
+VAR CurrentCountry = stgVeevaMilestone__V_BKP_01122023[CountryNEW]
+RETURN
+CALCULATE (
+    MAX (stgVeevaMilestone__V_BKP_01122023[Country Financial Templates Completed ]),
+    FILTER (
+        ALL ( stgVeevaMilestone__V_BKP_01122023),
+        stgVeevaMilestone__V_BKP_01122023[ProjNum] = CurrentProjNum
+            && NOT ( ISBLANK ( stgVeevaMilestone__V_BKP_01122023[Country Financial Templates Completed ] ) )
+                && stgVeevaMilestone__V_BKP_01122023[CountryNEW] = CurrentCountry
+    )
+)
+
+//u ovom slucaju imao sam listu milestonova za sve i studije i country i site i sad neki milestone je samo za studije kao final protocol available i on ce mi bitu u redu samo pored studije,
+ali ako ispod imam istu studiju samo drugi sajt i tkao nekoliko njih bice prazno onda ja trebam da uradim autofill za sve redove gde je ista studija, ili kao u ovom slucaju gde je ista studija i drzava posto je milestone na country level,
+ali ako je samo na nivou studije onda treba obrisati country = country )poslednji red)
+
+Milestone	Level	ProjNum	Country	Site	Date
+Final Protocol Availabel	Study	1234			1/1/2022
+	Country	1234	UK	12	
+	Country	1234	DE	54	
+	Country	1234	RS	73	
+	Country	1234	IT	24	
