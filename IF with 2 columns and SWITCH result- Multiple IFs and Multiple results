@@ -12,3 +12,4 @@ IF (
     ),
     BLANK()
 )
+//za new column, nije measure
