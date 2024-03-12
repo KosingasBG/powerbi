@@ -1,0 +1,14 @@
+CDU Enterprise = 
+IF (
+    Opportunity[CDU__c]= "CDU Enterprise 1" || (Opportunity[CDU__c] = "CDU Enterprise 2"),
+    IF (
+        Opportunity[Stage] = "Bid Pursuit Meeting" || Opportunity[Stage] = "Proposal",
+        SWITCH (
+            Opportunity[CDU__c],
+            "CDU Enterprise 1", "CDU Enterprise 1",
+            "CDU Enterprise 2", "CDU Enterprise 2"
+        ),
+        BLANK()
+    ),
+    BLANK()
+)
