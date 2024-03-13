@@ -1,0 +1,10 @@
+INT(3.12438)=3
+ROUND(3.12438) = 3.12
+ROUNDUP(3.12438,2)=3.13
+ROUNDDOWN (3.12438,2)= 3.12 //usefull to specify precision of a numer like customer age
+FIXED(3.12438,2)=3.12 // useful when you want to convert number to text
+
+//Zaokruzivanje vremena
+MROUND(9:34;14,"0:15")= 9:30:00 AM \\ rounds the minute component up or down base on the multiple
+FLOOR(9:34;14,"0:15") =  9:30:00 AM \\ rounds the minute component down to the nearest multiple
+CEILING(9:34;14,"0:15") = 9:45:00 AM // Rounds the minute component up to the nearest multiple
