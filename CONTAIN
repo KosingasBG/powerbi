@@ -1,0 +1,7 @@
+SCL Activities = 
+IF(
+   CONTAINSSTRING('martCorp dimActivity_V'[L2 Activity Name],"Negotiate"),
+    "Develop Negotiate and Execute Activities",
+    "Other Activities"
+)
+// za novu kolonu, ako vrednost u koloni ima rec "Negotiate" onda u novoj koloni da pise   "Develop Negotiate and Execute Activities",
