@@ -1,0 +1,3 @@
+Project IPS = CALCULATE(
+    FIRSTNONBLANK('MasterSheet-IPO Resourcing Tracker'[IPS],1),
+    FILTER(ALL('MasterSheet-IPO Resourcing Tracker'),'MasterSheet-IPO Resourcing Tracker'[Study Number]=Dim_ProjectNumber[Project]))
