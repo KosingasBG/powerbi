@@ -1,0 +1,8 @@
+Studies Managed running total in Agreement: Created Date = 
+CALCULATE(
+	[Studies Managed],
+	FILTER(
+		ALLSELECTED('Query1'[Agreement: Created Date]),
+		ISONORAFTER('Query1'[Agreement: Created Date], MAX('Query1'[Agreement: Created Date]), DESC)
+	)
+)
