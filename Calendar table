@@ -1,0 +1,36 @@
+Calendar = 
+ADDCOLUMNS(
+    CALENDAR(DATE(2010,1,1), DATE(2030,12,31)),
+    "Year", YEAR([Date]),
+    "Month Number", MONTH([Date]),
+    "Month Name", FORMAT([Date], "MMMM"),
+    "Month Name Short", FORMAT([Date], "MMM"),
+    "Quarter", "Q" & FORMAT([Date], "Q"),
+    "Year Quarter", YEAR([Date]) & " Q" & FORMAT([Date], "Q"),
+    "Day of Week Number", WEEKDAY([Date],2),
+    "Day of Week Name", FORMAT([Date], "DDDD"),
+    "Day of Week Name Short", FORMAT([Date], "DDD"),
+    "Day of Month", DAY([Date]),
+    "Day of Year", DATEDIFF(DATE(YEAR([Date]),1,1), [Date], DAY) + 1,
+    "Week of Year", WEEKNUM([Date]),
+    "Week Start Date", [Date] - WEEKDAY([Date],2) + 1,
+    "Week End Date", [Date] - WEEKDAY([Date],2) + 7,
+    "Month Year", FORMAT([Date], "MMM YYYY"),
+    "Is Weekday", IF(WEEKDAY([Date],2) < 6, TRUE, FALSE),
+    "Is Holiday", FALSE,  // You'll need to populate this manually or with a more complex calculation
+    "Fiscal Year", IF(MONTH([Date]) > 6, YEAR([Date]) + 1, YEAR([Date])),  // Assuming fiscal year starts in July
+    "Fiscal Quarter", "FQ" & SWITCH(
+                               TRUE(),
+                               MONTH([Date]) IN {7,8,9}, "1",
+                               MONTH([Date]) IN {10,11,12}, "2",
+                               MONTH([Date]) IN {1,2,3}, "3",
+                               "4"
+                           ),
+    "Fiscal Period", SWITCH(
+                        TRUE(),
+                        MONTH([Date]) IN {7,8,9}, MONTH([Date]) - 6,
+                        MONTH([Date]) IN {10,11,12}, MONTH([Date]) - 9,
+                        MONTH([Date]) IN {1,2,3}, MONTH([Date]) + 3,
+                        MONTH([Date]) + 6
+                    )
+)
