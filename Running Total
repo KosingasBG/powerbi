@@ -6,3 +6,6 @@ CALCULATE(
 		ISONORAFTER('Query1'[Agreement: Created Date], MAX('Query1'[Agreement: Created Date]), DESC)
 	)
 )
+
+
+ako imamo calendar table koja je povezana sa date colonama npr sa ovim gore onda umesto ovih date kolona agreement treba da ubacimo calendat date kolonu
