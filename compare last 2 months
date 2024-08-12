@@ -1,0 +1,24 @@
+Total Payments = 
+CALCULATE(
+    COUNT(FactPayments[PaymentID]),
+    DATESMTD(DimDate[Date])
+)
+
+Total Payments Last Month = 
+CALCULATE(
+    COUNT(FactPayments[PaymentID]),
+    DATEADD(DimDate[Date], -1, MONTH)
+)
+
+Total Payments % Change = 
+DIVIDE(
+    [Total Payments] - [Total Payments Last Month],
+    [Total Payments Last Month],
+    BLANK()
+)
+
+Total Payments with Comparison = 
+FORMAT([Total Payments], "#,##0") & 
+" (" & 
+FORMAT([Total Payments % Change], "+0.0%;-0.0%;0%") & 
+" from last month)"
