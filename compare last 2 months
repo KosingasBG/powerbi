@@ -22,3 +22,9 @@ FORMAT([Total Payments], "#,##0") &
 " (" & 
 FORMAT([Total Payments % Change], "+0.0%;-0.0%;0%") & 
 " from last month)"
+
+ako ne moze da se filtrira koristi ovi formulu umesto dateadd
+Total Payments Previous Month test = 
+CALCULATE(
+    COUNT('All_payment data'[AP Invoice Number]),
+  MONTH('All_payment data'[GL Date])=MONTH( MAX('All_payment data'[GL Date]))-1)
