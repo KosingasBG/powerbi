@@ -1,0 +1,19 @@
+Ovo sam radio za Cycle Times report imao sam 4 measures:
+Draft sent to site to fully executed
+all contracts activated to site activated
+final protocol available to study financial templatee available
+days in signatures
+a dole sam imao line chart koji ima 4 linije za svaku meru
+sa ovim postavljamo slicer sa merama iznad line charta i kada kliknemo na naziv mere on nam prikaze line chart sam oza tu meru
+<b>PRVI KORAK : NAPRAVITI PARAMETAR -> MODELING TAB -> NEW PARAMETAR ->FIELDS-> NAME prtCycleTimes -> u add and reorder.. ubacim measures->CREATE
+NAPRAVIM LINE CHART NA X STAVIM DATUM NA Y PARAMETAR prtCycleTimes
+iznad dodatm novi slicer (tiles)
+FORMATIRANJE -> idem na button smanjim padding ako treba, BORDER iskljucim ili bela, FILL iskljucim, VALUES wrap text.
+onda BUTTON -> APPLY SETTINGS TO SELECTED I ON HOVER STATE -> BORDER OFF->ACCENT BAR ON->BOTTOM AND WITDHT 5PX
+POSTAVITI SLICER IZNAD LINE CHARTA A IZA STAVITI BUTTON ILI SHAPE BELE BOJE DA IZGLEDA KAO JEDNA CELINA
+
+POSTAVITI VREDNOST NA SLICER
+NPRAVITI MEASURE -> Selected Metric Value Formatted = SWITCH ( MAX( prmCycleTimes), "Draft Sent to Site", draft sent to site (measure),
+"days in signatures", days in signatures (measure)...)
+GO TO SLICER (PRMCycleTimes) -> format-> callout values-> label ->add data -> new measure selected metric value formatted. ako su brojevi ruzni ili treba da se prikazu u milionima , hiljadama ili nessto drugo
+onda u measure ispred draft sent to site (measure) staviti format a measure u zagradi a druga vrednost , "#,##0,,.0M ovo je za milione )
