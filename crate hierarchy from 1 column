@@ -1,0 +1,47 @@
+how to create hierachy from one column. Example we have level column which contains values 1,2,3,4 (level)
+and when you want to have dropdown you need to divide them into columns and create hierachy like in date table
+if in column level is value 4 in new column level 3 will be value 3, in level 2 will be value 2...
+so depending from number of levels we will need same amount of columns
+first we need to create for lowest level column : L5 Activity ONB = L5 Activity Name = if('martCorp dimActivity_V'[ActivityLevel]=5,'martCorp dimActivity_V'[ActivityName],BLANK())
+then level 4 : L4 Activity Name = 
+IF(
+    'martCorp dimActivity_V'[ActivityLevel] = 4,
+    'martCorp dimActivity_V'[ActivityName],
+    IF(
+        ISBLANK('martCorp dimActivity_V'[L5 Activity ONB]),
+        BLANK(),
+        LOOKUPVALUE(
+            'martCorp dimActivity_V'[ActivityName],
+            'martCorp dimActivity_V'[ActivityONB],
+            'martCorp dimActivity_V'[L5 Activity ONB]
+        )
+    )
+)
+then level 3: L3 Activity Name = 
+IF(
+    'martCorp dimActivity_V'[ActivityLevel] = 3,
+    'martCorp dimActivity_V'[ActivityName],
+    IF(
+        ISBLANK('martCorp dimActivity_V'[L4 Activity ONB]),
+        BLANK(),
+        LOOKUPVALUE(
+            'martCorp dimActivity_V'[ActivityName],
+            'martCorp dimActivity_V'[ActivityONB],
+            'martCorp dimActivity_V'[L4 Activity ONB]
+        )
+    )
+)
+and level 1 : L1 Activity Name = 
+IF(
+    'martCorp dimActivity_V'[ActivityLevel] = 1,
+    'martCorp dimActivity_V'[ActivityName],
+    IF(
+        ISBLANK('martCorp dimActivity_V'[L2 Activity ONB]),
+        BLANK(),
+        LOOKUPVALUE(
+            'martCorp dimActivity_V'[ActivityName],
+            'martCorp dimActivity_V'[ActivityONB],
+            'martCorp dimActivity_V'[L2 Activity ONB]
+        )
+    )
+)
