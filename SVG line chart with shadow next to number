@@ -1,0 +1,56 @@
+KPI (new tile-Card ) Sparkline
+// how to add sparkline (line chart) with shaded area to your kpi tile//
+just replace date value and measure - it is best to create in calendar table month year column by combinin Month(CalendarTable[Date]) &/1/& YEAR (CalendarTable[Date])
+instructions : select visualziation -> Card new-> enable image in format pane-> set image type to Image URL -> select Fx in Image URL below and select created svg measure-> SET SIZE TO 200PX
+
+this is dax 
+Total Tickets Sparkline = 
+// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+VAR LineColour = "#8A0050"
+VAR PointColour = "white"
+VAR Defs = "<defs>
+    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+        <stop stop-color='#8A0050' offset='0' />
+        <stop stop-color='#8A0050' offset='0.3' />
+        <stop stop-color='white' offset='1' />
+    </linearGradient>
+</defs>"
+// "Date" field used in this example along the X axis
+VAR XMinDate = MIN('Calendar Table'[Year & Month])
+VAR XMaxDate = MAX('Calendar Table'[Year & Month])
+
+// Obtain overall min and overall max measure values when evaluated for each date
+VAR YMinValue = MINX(Values('Calendar Table'[Year & Month]),CALCULATE([#Total Tickets]))
+VAR YMaxValue = MAXX(Values('Calendar Table'[Year & Month]),CALCULATE([#Total Tickets]))
+
+// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+VAR SparklineTable = ADDCOLUMNS(
+    SUMMARIZE('Query1','Calendar Table'[Year & Month]),
+        "X",INT(150 * DIVIDE('Calendar Table'[Year & Month] - XMinDate, XMaxDate - XMinDate)),
+        "Y",INT(50 * DIVIDE([#Total Tickets]- YMinValue,YMaxValue - YMinValue)))
+
+// Concatenate X & Y coordinates to build the sparkline
+VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", 'Calendar Table'[Year & Month])
+
+// Last data points on the line
+VAR LastSparkYValue = MAXX( FILTER(SparklineTable,'Calendar Table'[Year & Month] = XMaxDate), [Y])
+VAR LastSparkXValue = MAXX( FILTER(SparklineTable, 'Calendar Table'[Year & Month]= XMaxDate), [X])
+
+// Add to SVG, and verify Data Category is set to Image URL for this measure
+VAR SVGImageURL = 
+    "data:image/svg+xml;utf8," & 
+    --- gradient---
+    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+      stroke-width='0' points=' 0 50 " & Lines & 
+      " 150 150 Z '/>" &
+    --- Lines---
+    "<polyline 
+        fill='transparent' stroke='" & LineColour & "' 
+        stroke-linecap='round' stroke-linejoin='round' 
+        stroke-width='3' points=' " & Lines & 
+      " '/>" &
+    --- Last Point---
+        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+        "</svg>"
+RETURN SVGImageURL
